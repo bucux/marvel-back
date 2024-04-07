@@ -1,14 +1,10 @@
 
 import express from 'express'
-
 import sha256 from 'crypto-js/sha256.js'
 import encBase64 from 'crypto-js/enc-base64.js'
-
-// const encBase64 = require('crypto-js/enc-base64')
 import uid2 from 'uid2'
-// const uid2 = require('uid2')
 import User from '../models/User.js'
-// const User = require('../models/User')
+import isAuth from '../middles/auth.js'
 
 const routerUser = express.Router()
 
@@ -17,6 +13,10 @@ routerUser.get('/user', async (req, res) => { // liste complète des users
     const liste = await User.find()
     res.status(200).json(liste)
   }catch (error){res.status(500).json({error: error.message})}
+})
+
+routerUser.get('/user/handshake', isAuth, async (req, res) => { // vérification du cookie sans attendre le login, et communication de l'username si ok
+  res.status(200).json(req.user) // req.user est fourni par isAuth
 })
 
 routerUser.post('/user/signup', async (req, res) => { // inscription des users
@@ -30,7 +30,7 @@ routerUser.post('/user/signup', async (req, res) => { // inscription des users
         const token = uid2(16)
         const newUser  = new User({
           email,
-          account: { username },
+          username,
           token,
           hash, 
           salt
@@ -39,7 +39,7 @@ routerUser.post('/user/signup', async (req, res) => { // inscription des users
         res.status(200).json({
           _id: newUser._id,
           token,
-          account: { username }
+          username,
         })
       }else{throw new Error ('Cet email existe déjà.')}
     } else{throw new Error ("Email, username et password requis.")}
@@ -61,7 +61,7 @@ routerUser.post('/user/login', async (req, res) => { // connextion des users
           res.status(200).json({
             _id: user._id,
             token: token2,
-            account: { username }
+            username
           })
         }else{throw new Error ("Password incorrect")}
       }else{throw new Error ("Cet email n'existe pas, veuillez vous signup.")}

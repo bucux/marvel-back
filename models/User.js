@@ -4,10 +4,7 @@ import mongoose from '../libs/mongo.js' // une instance unique et déjà connect
 
 const User = mongoose.model('User', {
   email: String,
-  account: {
-    username: String,
-    avatar: Object, 
-  },
+  username: String,
   token: String,
   hash: String,
   salt: String,

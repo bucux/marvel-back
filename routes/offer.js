@@ -3,7 +3,7 @@
 // const express = require('express')
 // const fileUpload = require("express-fileupload")
 // import Offer from '../models/Offer.js';
-// const isAuthenticated = require('../middles/auth')
+// const isAuth = require('../middles/auth')
 
 // const routerOffer = express.Router()
 
@@ -30,7 +30,7 @@
 //   } catch (error) { res.status(500).json({message: error.message}) }
 // })
 
-// routerOffer.post('/offer/publish', isAuthenticated, fileUpload(), async (req, res) => {
+// routerOffer.post('/offer/publish', isAuth, fileUpload(), async (req, res) => {
 //   try{
 //     const {title, description, price, condition, city, brand, size, color} = req.body
 //     if (!req.files || !req.files.picture) { // si l'image est manquante, retourner une erreur
