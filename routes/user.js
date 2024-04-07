@@ -16,7 +16,9 @@ routerUser.get('/user', async (req, res) => { // liste complète des users
 })
 
 routerUser.get('/user/handshake', isAuth, async (req, res) => { // vérification du cookie sans attendre le login, et communication de l'username si ok
-  res.status(200).json(req.user) // req.user est fourni par isAuth
+  req.user.hash = '' // on prend le soin d'effacer les données secrètes
+  req.user.salt = ''
+  res.status(200).json(req.user) // req.user sans les données secrètes
 })
 
 routerUser.post('/user/signup', async (req, res) => { // inscription des users
@@ -58,11 +60,9 @@ routerUser.post('/user/login', async (req, res) => { // connextion des users
           const token2 = uid2(16)  
           user.token = token2 // on renouvelle le token de l'utilisateur
           await user.save()
-          res.status(200).json({
-            _id: user._id,
-            token: token2,
-            username
-          })
+          user.salt = '' // après la sauvegarde, on peut se permettre de supprimer les données secrètes
+          user.hash = ''
+          res.status(200).json(user) // envoi au client de l'user sans les données secrètes
         }else{throw new Error ("Password incorrect")}
       }else{throw new Error ("Cet email n'existe pas, veuillez vous signup.")}
     } else{throw new Error ("Email et password requis.")}

@@ -8,6 +8,14 @@ const User = mongoose.model('User', {
   token: String,
   hash: String,
   salt: String,
+  idHeros: {
+    type: [String],
+    default: [''] 
+  },
+  idComics: {
+    type: [String],
+    default: [''] 
+  },
 })
 
 export default User
