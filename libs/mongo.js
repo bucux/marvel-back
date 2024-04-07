@@ -1,12 +1,13 @@
 
-import mongoose from ('mongoose')
+import mongoose from 'mongoose'
 
 let mongooseInstance = null;
 
 const mongoSingleton = () => {
   if (!mongooseInstance) {
-    let mongoURI = 'mongodb://127.0.0.1/vinteddb' // mongodb en local
-    if(process.env.HOSTNAME !== '17-pouces'){mongoURI = process.env.MONGO_ATLAS_URI}
+    // let mongoURI = 'mongodb://127.0.0.1/vinteddb' // mongodb en local
+    // if(process.env.HOSTNAME !== '17-pouces'){mongoURI = process.env.MONGO_ATLAS_URI}
+    const mongoURI = process.env.MONGO_ATLAS_URI 
     mongoose.connect(mongoURI).then(() => {
       console.log('Connexion à MongoDB réussie.');
     }).catch((err) => {
@@ -17,4 +18,4 @@ const mongoSingleton = () => {
   return mongooseInstance;
 };
 
-module.exports = mongoSingleton();
+export default mongoSingleton()

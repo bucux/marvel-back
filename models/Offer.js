@@ -1,6 +1,6 @@
 
 
-const mongoose = require('../libs/mongo') // une instance unique et déjà connectée de moogoose
+import mongoose from '../libs/mongo.js' // une instance unique et déjà connectée de moogoose
 
 const Offer = mongoose.model("Offer", {
   product_name: String,
@@ -14,4 +14,4 @@ const Offer = mongoose.model("Offer", {
   },
 });
 
-module.exports = Offer;
+export default Offer

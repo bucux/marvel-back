@@ -1,6 +1,6 @@
 
 
-const mongoose = require('../libs/mongo') // une instance unique et déjà connectée de moogoose
+import mongoose from '../libs/mongo.js' // une instance unique et déjà connectée de moogoose
 
 const User = mongoose.model('User', {
   email: String,
@@ -8,10 +8,9 @@ const User = mongoose.model('User', {
     username: String,
     avatar: Object, 
   },
-  newsletter: Boolean,
   token: String,
   hash: String,
   salt: String,
 })
 
-module.exports = User
+export default User

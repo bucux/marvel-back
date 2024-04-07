@@ -6,13 +6,14 @@ const app = express() // cette ligne doit être placée avant les requires des r
 
 import routerCharacters from './routes/characters.js';
 import routerComics from './routes/comics.js';
+import routerUser from './routes/user.js';
 const PORT = process.env.PORT ? process.env.PORT : 3000
 
 app.use(cors())
 app.use(express.json())
 app.use(routerComics)
 app.use(routerCharacters)
-// app.use(routerLogin)
+app.use(routerUser)
 // app.use(routerFavoris)
 
 app.all('*', (req, res)=>{
